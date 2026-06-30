@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loy Mukul Upadhyaya</title>
+<style>
+  :root{
+    --black:#0a0a0c;
+    --red:#e8392f;
+    --blue:#2b5ce8;
+    --paper:#f4f4f2;
+    --muted:#8b8b93;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--paper);
+    font-family:'Inter','Segoe UI', system-ui, sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,.section-title,.logo{
+    font-family:'Georgia','Times New Roman',serif;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---- Background streaks ---- */
+  .bg-streak{
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .streak{
+    position:absolute;
+    width:2px;
+    height:140%;
+    top:-20%;
+    opacity:.18;
+    animation:drift 18s linear infinite;
+  }
+  .streak.red{background:linear-gradient(var(--red),transparent);}
+  .streak.blue{background:linear-gradient(var(--blue),transparent);}
+  @keyframes drift{
+    0%{transform:translateY(-10%) rotate(8deg);}
+    100%{transform:translateY(10%) rotate(8deg);}
+  }
+
+  nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:24px 6vw;
+    z-index:10;
+    backdrop-filter:blur(6px);
+    background:rgba(10,10,12,0.55);
+  }
+  .logo{
+    font-weight:800;letter-spacing:.08em;font-size:1.1rem;
+  }
+  .logo span{color:var(--red);}
+  nav ul{list-style:none;display:flex;gap:2.2rem;}
+  nav a{
+    color:var(--paper);text-decoration:none;font-size:.85rem;
+    letter-spacing:.06em;text-transform:uppercase;
+    position:relative;
+    opacity:.8;
+  }
+  nav a::after{
+    content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    transition:width .3s ease;
+  }
+  nav a:hover{opacity:1;}
+  nav a:hover::after{width:100%;}
+
+  section{
+    position:relative;z-index:1;
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:0 6vw;
+  }
+
+  /* ---- HERO ---- */
+  .hero{
+    align-items:flex-start;
+  }
+  .eyebrow{
+    color:var(--blue);
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    font-size:.78rem;
+    margin-bottom:1.2rem;
+    opacity:0;
+    animation:rise .8s ease forwards .2s;
+  }
+  h1{
+    font-size:clamp(2.6rem,8vw,6.2rem);
+    line-height:0.98;
+    font-weight:800;
+    letter-spacing:-.02em;
+    opacity:0;
+    animation:rise .9s ease forwards .4s;
+  }
+  h1 .first{display:block;color:var(--paper);}
+  h1 .last{
+    display:block;
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-sub{
+    margin-top:1.6rem;
+    max-width:480px;
+    color:var(--muted);
+    font-size:1.05rem;
+    line-height:1.6;
+    opacity:0;
+    animation:rise .9s ease forwards .65s;
+  }
+  .hero-meta{
+    margin-top:2.4rem;
+    display:flex;gap:2.4rem;flex-wrap:wrap;
+    opacity:0;
+    animation:rise .9s ease forwards .85s;
+  }
+  .meta-item{font-size:.85rem;}
+  .meta-item .label{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;margin-bottom:.3rem;}
+  .meta-item .val{font-weight:600;}
+
+  @keyframes rise{
+    from{opacity:0;transform:translateY(24px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .scroll-cue{
+    position:absolute;bottom:40px;left:6vw;
+    font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);
+    display:flex;align-items:center;gap:10px;
+  }
+  .scroll-cue .line{
+    width:32px;height:1px;background:var(--muted);
+    position:relative;overflow:hidden;
+  }
+  .scroll-cue .line::after{
+    content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;
+    background:var(--red);
+    animation:run 2s ease-in-out infinite;
+  }
+  @keyframes run{
+    0%{left:-100%;}
+    50%{left:0;}
+    100%{left:100%;}
+  }
+
+  /* ---- ABOUT ---- */
+  .section-head{
+    display:flex;align-items:baseline;gap:1rem;margin-bottom:2.4rem;
+  }
+  .section-num{color:var(--red);font-weight:700;font-size:.85rem;}
+  .section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.01em;}
+
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:4vw;
+    align-items:start;
+  }
+  .about-text p{color:var(--muted);line-height:1.8;font-size:1.05rem;margin-bottom:1.2rem;}
+  .about-text strong{color:var(--paper);}
+
+  .stat-card{
+    border:1px solid rgba(244,244,242,0.1);
+    padding:1.6rem;
+    border-radius:4px;
+    background:linear-gradient(160deg, rgba(232,57,47,0.06), rgba(43,92,232,0.06));
+    margin-bottom:1rem;
+    transition:transform .35s ease, border-color .35s ease;
+  }
+  .stat-card:hover{transform:translateX(6px);border-color:rgba(244,244,242,0.3);}
+  .stat-card .n{font-size:2rem;font-weight:800;color:var(--paper);}
+  .stat-card .l{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;}
+
+  /* ---- INTERESTS ---- */
+  .interest-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.4rem;
+  }
+  .interest-card{
+    border:1px solid rgba(244,244,242,0.08);
+    padding:2rem 1.6rem;
+    border-radius:6px;
+    position:relative;
+    overflow:hidden;
+    cursor:default;
+  }
+  .interest-card::before{
+    content:'';
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%, var(--accent,var(--red)) 0%, transparent 60%);
+    opacity:0;
+    transition:opacity .4s ease;
+  }
+  .interest-card:hover::before{opacity:.15;}
+  .interest-card:hover{border-color:var(--accent,var(--red));}
+  .interest-card h3{font-size:1.1rem;margin-bottom:.5rem;position:relative;}
+  .interest-card p{color:var(--muted);font-size:.9rem;line-height:1.5;position:relative;}
+
+  /* ---- CONTACT ---- */
+  .contact{
+    align-items:center;
+    text-align:center;
+  }
+  .contact h2{
+    font-size:clamp(2rem,6vw,3.6rem);
+    font-weight:800;
+    margin-bottom:1.4rem;
+  }
+  .contact h2 span{
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .contact p{color:var(--muted);max-width:420px;margin:0 auto 2.4rem;line-height:1.6;}
+  .contact-link{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:1rem 2.2rem;
+    border:1px solid var(--paper);
+    border-radius:40px;
+    color:var(--paper);text-decoration:none;
+    font-size:.95rem;letter-spacing:.02em;
+    transition:all .35s ease;
+  }
+  .contact-link:hover{
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    border-color:transparent;
+    transform:translateY(-2px);
+  }
+  footer{
+    text-align:center;padding:2rem;color:var(--muted);font-size:.75rem;
+    letter-spacing:.06em;position:relative;z-index:1;
+  }
+
+  @media (max-width:760px){
+    .about-grid{grid-template-columns:1fr;}
+    nav ul{gap:1.2rem;}
+    nav a{font-size:.7rem;}
+  }
+
+  /* ---- Custom cursor ---- */
+  body{cursor:none;}
+  a,button{cursor:none;}
+  .cursor-dot,.cursor-ring{
+    position:fixed;
+    top:0;left:0;
+    pointer-events:none;
+    z-index:9999;
+    transform:translate(-50%,-50%);
+  }
+  .cursor-dot{
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--paper);
+  }
+  .cursor-ring{
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1px solid rgba(244,244,242,0.5);
+    background:transparent;
+    transition:width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .cursor-ring.hover{
+    width:42px;height:42px;
+    border-color:var(--red);
+    background:radial-gradient(circle, rgba(232,57,47,0.08), transparent 70%);
+  }
+  @media (hover:none){
+    body{cursor:auto;}
+    .cursor-dot,.cursor-ring{display:none;}
+  }
+
+  /* ---- Bubble background ---- */
+  .bubble-field{
+    position:fixed;inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .bubble{
+    position:absolute;
+    bottom:-12%;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(244,244,242,0.08), rgba(244,244,242,0.01) 70%);
+    border:1px solid rgba(244,244,242,0.06);
+    animation:floatUp linear infinite;
+  }
+  .bubble.red{box-shadow:0 0 14px rgba(232,57,47,0.12) inset;border-color:rgba(232,57,47,0.14);}
+  .bubble.blue{box-shadow:0 0 14px rgba(43,92,232,0.12) inset;border-color:rgba(43,92,232,0.14);}
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0) scale(1);opacity:0;}
+    8%{opacity:.4;}
+    50%{transform:translateY(-55vh) translateX(14px) scale(1.03);}
+    92%{opacity:.3;}
+    100%{transform:translateY(-115vh) translateX(-8px) scale(.97);opacity:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-streak">
+  <div class="streak red" style="left:12%;animation-duration:22s;"></div>
+  <div class="streak blue" style="left:34%;animation-duration:26s;animation-delay:-6s;"></div>
+  <div class="streak red" style="left:61%;animation-duration:19s;animation-delay:-3s;"></div>
+  <div class="streak blue" style="left:83%;animation-duration:24s;animation-delay:-9s;"></div>
+</div>
+
+<div class="bubble-field" id="bubbleField"></div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="logo">L<span>·</span>M<span>·</span>U</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#interests">Interests</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="top">
+  <div class="eyebrow">Grade 6 · Guwahati, Assam</div>
+  <h1>
+    <span class="first">Loy Mukul</span>
+    <span class="last">Upadhyaya</span>
+  </h1>
+  <p class="hero-sub">Grade 6 student based in Guwahati, Assam — engaged in academics, steady learning, and an early interest in building things on the web.</p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="label">Grade</span><span class="val">6</span></div>
+    <div class="meta-item"><span class="label">Age</span><span class="val">12</span></div>
+    <div class="meta-item"><span class="label">Based in</span><span class="val">Guwahati, Assam, India</span></div>
+  </div>
+  <div class="scroll-cue"><div class="line"></div>Scroll</div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <span class="section-title">About Me</span>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <strong>Loy Mukul Upadhyaya</strong>, a Grade 6 student from <strong>Guwahati, Assam, India</strong>. This page is a brief, personal introduction.</p>
+      <p>I'm 12 years old, currently focused on my schoolwork, and developing an interest in how things are built — including this website.</p>
+    </div>
+    <div>
+      <div class="stat-card"><div class="n">12</div><div class="l">Years Old</div></div>
+      <div class="stat-card"><div class="n">06</div><div class="l">Grade</div></div>
+      <div class="stat-card"><div class="n">IN</div><div class="l">Guwahati, Assam</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="interests">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <span class="section-title">Interests</span>
+  </div>
+  <div class="interest-grid">
+    <div class="interest-card" style="--accent:var(--red)">
+      <h3>Academics</h3>
+      <p>Working through the Grade 6 curriculum with consistent focus across subjects.</p>
+    </div>
+    <div class="interest-card" style="--accent:var(--blue)">
+      <h3>Web Development</h3>
+      <p>An early, growing interest in building and designing for the web — this site is a first step.</p>
+    </div>
+    <div class="interest-card" style="--accent:var(--red)">
+      <h3>Home</h3>
+      <p>Raised in Guwahati, Assam — a city along the Brahmaputra with a strong cultural heritage.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Get in <span>Touch</span></h2>
+  <p>For any correspondence, the contact below reaches me directly.</p>
+  <a class="contact-link" href="mailto:loymukul@gmail.com">loymukul@gmail.com</a>
+</section>
+
+<footer>© 2026 Loy Mukul Upadhyaya · Guwahati, Assam, India</footer>
+
+<script>
+  // Custom cursor
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove', e=>{
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+  });
+  function loop(){
+    rx += (mx-rx)*0.18;
+    ry += (my-ry)*0.18;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a, .interest-card, .stat-card, button').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave', ()=>ring.classList.remove('hover'));
+  });
+
+  // Bubble background
+  const field = document.getElementById('bubbleField');
+  const colors = ['', 'red', 'blue'];
+  const bubbleCount = window.innerWidth < 760 ? 8 : 14;
+  for(let i=0;i<bubbleCount;i++){
+    const b = document.createElement('div');
+    const size = 8 + Math.random()*42;
+    b.className = 'bubble ' + colors[Math.floor(Math.random()*colors.length)];
+    b.style.width = size+'px';
+    b.style.height = size+'px';
+    b.style.left = Math.random()*100+'%';
+    b.style.animationDuration = (10 + Math.random()*16)+'s';
+    b.style.animationDelay = (Math.random()*-20)+'s';
+    field.appendChild(b);
+  }
+</script>
+
+</body>
+</html>
